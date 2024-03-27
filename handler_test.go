@@ -7,7 +7,7 @@ import (
 
 func TestComputeHandler(t *testing.T) {
 	// Тест успішного обчислення
-	input := bytes.NewBufferString("2 2 +")
+	input := bytes.NewBufferString("+ 2 2")
 	output := &bytes.Buffer{}
 	handler := ComputeHandler{Input: input, Output: output}
 	err := handler.Compute()
@@ -19,7 +19,7 @@ func TestComputeHandler(t *testing.T) {
 	}
 
 	// Тест помилки синтаксису
-	input = bytes.NewBufferString("2 2 + ")
+	input = bytes.NewBufferString(" + 2 2 ")
 	output = &bytes.Buffer{}
 	handler = ComputeHandler{Input: input, Output: output}
 	err = handler.Compute()
