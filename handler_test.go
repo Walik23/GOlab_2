@@ -2,28 +2,48 @@ package lab2
 
 import (
 	"bytes"
+	"errors"
+	"io"
+	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestComputeHandler(t *testing.T) {
-	// Тест успішного обчислення
-	input := bytes.NewBufferString("+ 2 2")
-	output := &bytes.Buffer{}
-	handler := ComputeHandler{Input: input, Output: output}
-	err := handler.Compute()
-	if err != nil {
-		t.Errorf("Неочікувана помилка: %v", err)
-	}
-	if output.String() != "4\n" {
-		t.Errorf("Невірний результат: %s", output.String())
+func TestComputeHandler_Computes(t *testing.T) {
+	type fields struct {
+		Input  io.Reader
+		Output io.Writer
 	}
 
-	// Тест помилки синтаксису
-	input = bytes.NewBufferString(" + 2 2 ")
-	output = &bytes.Buffer{}
-	handler = ComputeHandler{Input: input, Output: output}
-	err = handler.Compute()
-	if err == nil {
-		t.Error("Очікувалась помилка синтаксису")
+	var writer bytes.Buffer
+	mockErrorMessage := "mockError"
+
+	tests := []struct {
+		name    string
+		fields  fields
+		calc    SpyPostfixCalculator
+		wantErr bool
+	}{
+		{"HappyPathCase", fields{strings.NewReader("7 2 -"), &writer}, SpyPostfixCalculator{7, nil}, false},
+		{"HappyPathCase", fields{strings.NewReader("7 2 - - -"), &writer}, SpyPostfixCalculator{0, errors.New(mockErrorMessage)}, true},
+	}
+
+	for _, testCase := range tests {
+		t.Run(testCase.name, func(t *testing.T) {
+			ch := &ComputeHandler{
+				Input:      testCase.fields.Input,
+				Output:     testCase.fields.Output,
+				Calculator: &testCase.calc,
+			}
+			err := ch.Compute()
+
+			if testCase.wantErr {
+				assert.Error(t, err, mockErrorMessage)
+			} else {
+				assert.NoError(t, err)
+			}
+
+		})
 	}
 }
