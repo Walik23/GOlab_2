@@ -10,19 +10,19 @@ type InfixInterpreter interface {
 	EvaluateInfix(expression string) (int, error)
 }
 
-type SpyInfixCalculator struct {
+type SpyInfixInterpreter struct {
 	spyResult int
 	spyError  error
 }
 
-func (spc *SpyInfixCalculator) EvaluateInfix(expression string) (int, error) {
+func (spc *SpyInfixInterpreter) EvaluateInfix(expression string) (int, error) {
 	return spc.spyResult, spc.spyError
 }
 
 type ComputeHandler struct {
 	Input      io.Reader
 	Output     io.Writer
-	Calculator InfixCalculator
+	Calculator InfixInterpreter
 }
 
 func (ch *ComputeHandler) Compute() error {
