@@ -22,11 +22,11 @@ func TestComputeHandler_Computes(t *testing.T) {
 	tests := []struct {
 		name    string
 		fields  fields
-		calc    SpyPostfixCalculator
+		calc    SpyInfixInterpreter
 		wantErr bool
 	}{
-		{"HappyPathCase", fields{strings.NewReader("7 2 -"), &writer}, SpyPostfixCalculator{7, nil}, false},
-		{"HappyPathCase", fields{strings.NewReader("7 2 - - -"), &writer}, SpyPostfixCalculator{0, errors.New(mockErrorMessage)}, true},
+		{"HappyPathCase", fields{strings.NewReader("- 7 2"), &writer}, SpyInfixInterpreter{7, nil}, false},
+		{"HappyPathCase", fields{strings.NewReader("- - - 7 2"), &writer}, SpyInfixInterpreter{0, errors.New(mockErrorMessage)}, true},
 	}
 
 	for _, testCase := range tests {
