@@ -6,23 +6,23 @@ import (
 	"strings"
 )
 
-type PostfixCalculator interface {
-	EvaluatePostfix(expression string) (int, error)
+type InfixInterpreter interface {
+	EvaluateInfix(expression string) (int, error)
 }
 
-type SpyPostfixCalculator struct {
+type SpyInfixCalculator struct {
 	spyResult int
 	spyError  error
 }
 
-func (spc *SpyPostfixCalculator) EvaluatePostfix(expression string) (int, error) {
+func (spc *SpyInfixCalculator) EvaluateInfix(expression string) (int, error) {
 	return spc.spyResult, spc.spyError
 }
 
 type ComputeHandler struct {
 	Input      io.Reader
 	Output     io.Writer
-	Calculator PostfixCalculator
+	Calculator InfixCalculator
 }
 
 func (ch *ComputeHandler) Compute() error {
@@ -31,7 +31,7 @@ func (ch *ComputeHandler) Compute() error {
 		return err
 	}
 	expression := strings.TrimSpace(string(data))
-	result, err := ch.Calculator.EvaluatePostfix(expression)
+	result, err := ch.Calculator.EvaluateInfix(expression)
 	if err != nil {
 		return err
 	}
