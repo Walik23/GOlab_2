@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 	"strings"
-    "GOlab_2"
+        "GOlab_2"
 )
 
 var (
