@@ -4,12 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"os"
 	"log"
+	"os"
 	"strings"
-	"go_lab2"
-	lab2 "github.com/roman-mazur/architecture-lab-2"
+    "GOlab_2"
 )
+
 var (
 	inputExpression = flag.String("e", "", "Expression to compute")
 	fileExpression  = flag.String("f", "", "File with expression")
@@ -52,10 +52,11 @@ func main() {
 	handler := lab2.ComputeHandler{
 		Input:      input,
 		Output:     output,
-		Calculator: &lab2.DefaultPostfixCalculator{},
+		Calculator: &lab2.DefaultInfixInterpreter{},
 	}
 
 	if err := handler.Compute(); err != nil {
 		log.Fatalln("main: error occurred for Compute(), error: ", err)
 	}
 }
+
