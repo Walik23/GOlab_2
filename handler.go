@@ -7,15 +7,15 @@ import (
 )
 
 type InfixInterpreter interface {
-	EvaluateInfix(expression string) (int, error)
+	ToInfix(expression string) (string, error)
 }
 
 type SpyInfixInterpreter struct {
-	spyResult int
+	spyResult string
 	spyError  error
 }
 
-func (spc *SpyInfixInterpreter) EvaluateInfix(expression string) (int, error) {
+func (spc *SpyInfixInterpreter) ToInfix(expression string) (string, error) {
 	return spc.spyResult, spc.spyError
 }
 
@@ -31,10 +31,10 @@ func (ch *ComputeHandler) Compute() error {
 		return err
 	}
 	expression := strings.TrimSpace(string(data))
-	result, err := ch.Calculator.EvaluateInfix(expression)
+	result, err := ch.Calculator.ToInfix(expression)
 	if err != nil {
 		return err
 	}
-	_, err = ch.Output.Write([]byte(fmt.Sprintf("%d\n", result)))
+	_, err = ch.Output.Write([]byte(fmt.Sprintf("%s\n", result)))
 	return err
 }
