@@ -25,8 +25,8 @@ func TestComputeHandler_Computes(t *testing.T) {
 		calc    SpyInfixInterpreter
 		wantErr bool
 	}{
-		{"HappyPathCase", fields{strings.NewReader("- 7 2"), &writer}, SpyInfixInterpreter{7, nil}, false},
-		{"HappyPathCase", fields{strings.NewReader("- - - 7 2"), &writer}, SpyInfixInterpreter{0, errors.New(mockErrorMessage)}, true},
+		{"HappyPathCase", fields{strings.NewReader("- 7 2"), &writer}, SpyInfixInterpreter{"(7-2)", nil}, false},
+		{"HappyPathCase", fields{strings.NewReader("- - - 7 2"), &writer}, SpyInfixInterpreter{"expression format is incorrect", errors.New(mockErrorMessage)}, true},
 	}
 
 	for _, testCase := range tests {
