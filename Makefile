@@ -6,6 +6,6 @@ clean:
 test: *.go
 	go test ./...
 
-out/example: implementation.go cmd/example/main.go
+build: implementation.go cmd/example/main.go
 	mkdir -p out
 	go build -o out/example ./cmd/example
