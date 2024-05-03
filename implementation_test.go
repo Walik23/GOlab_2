@@ -16,7 +16,7 @@ func TestToInfix(t *testing.T) {
 		expected   string
 		wantErr    bool
 	}{
-		{"SimpleAddition", "+ 1 4", "(1+4)", false},
+		{"SimpleAddition", "+ 1 4", "(1+4", false},
 		{"SimplePow", "^ 3 4", "(3^4)", false},
 		{"SimpleExpression", "/ - 3 4 + 2 7", "((3-4)/(2+7))", false},
 		{"EmptyString", " ", "expression format is incorrect", true},
